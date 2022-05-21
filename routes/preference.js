@@ -2,21 +2,27 @@ const express = require("express");
 const Preference = require("../models/preference");
 const auth = require("../middleware/user_jwt");
 const genfreq = require("../middleware/genfreq");
+const data = require("../middleware/data");
 const router = express.Router();
 
+
 // Updating preference in db based on click
-router.post("/onclick", auth, async (req, res) => {
+router.get("/onclick", auth, async (req, res) => {
   try {
     const preference = await Preference.findByIdAndUpdate(req.preference.id);
-    const genres = req.body.genres;
-    for (let i of genres) {
-      preference.genre[i].value += 1;
-    }
-    preference.save();
-
-    res.status(200).json({
-      msg: "success",
-    });
+    await fetch(
+      `https://api.themoviedb.org/3/movie/${req.query.movieid}?api_key=${process.env.TMDBAPIKEY}&language=US-en&append_to_response=videos`)
+      .then((response) => response.json())
+      .then((data) =>{ 
+        const genres = data.genres;
+        for (let i of genres) {
+          preference.genre[i.id].value += 1;
+        }
+        preference.save();
+        res.status(200).json({
+        msg: "success",
+        detail:data
+      })});
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -26,21 +32,24 @@ router.post("/onclick", auth, async (req, res) => {
 });
 
 // Currently in theater movies based on recommendation
-router.get("/intheater", auth, genfreq, async (req, res) => {
+router.get("/intheater", auth, genfreq,data, async (req, res) => {
   try {
     var genre = req.topgenre;
+    var country = req.country;
+    var adult = req.adult;
 
-    var movieSet = [];
+    var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
       await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=1e8236147d475e6013b593098ae706a3&page=1&region=IN&with_genres=${genre[i]}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
         .then((response) => response.json())
-        .then((data) => movieSet.push(data.results));
-      console.log(i);
+        .then((data) => movieArr.push(data.results));
     }
+    movieArr = [].concat.apply([], movieArr);
+
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -52,21 +61,23 @@ router.get("/intheater", auth, genfreq, async (req, res) => {
 });
 
 // Upcoming movies based on recommendation
-router.get("/upcoming", auth, genfreq, async (req, res) => {
+router.get("/upcoming", auth, genfreq,data, async (req, res) => {
   try {
     var genre = req.topgenre;
-    var movieSet = [];
+    var country = req.country;
+    var adult = req.adult;
+    var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
       await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=1e8236147d475e6013b593098ae706a3&language=en-US&page=1&with_genres=${genre[i]}`
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
         .then((response) => response.json())
-        .then((data) => movieSet.push(data.results));
-      console.log(i);
+        .then((data) => movieArr.push(data.results));
     }
+    movieArr = [].concat.apply([], movieArr);
 
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -78,19 +89,22 @@ router.get("/upcoming", auth, genfreq, async (req, res) => {
 });
 
 // movies based on interest
-router.get("/recommended", auth, genfreq, async (req, res) => {
+router.get("/recommended", auth, genfreq,data, async (req, res) => {
   try {
     var genre = req.topgenre;
-    var movieSet = [];
+    var country = req.country;
+    var adult = req.adult;
+    var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
       await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=1e8236147d475e6013b593098ae706a3&language=en-US&page=1&with_genres=${genre[i]}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
         .then((response) => response.json())
-        .then((data) => movieSet.push(data.results));
+        .then((data) => movieArr.push(data.results));
     }
+    movieArr = [].concat.apply([], movieArr);
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -102,20 +116,25 @@ router.get("/recommended", auth, genfreq, async (req, res) => {
 });
 
 // movies of less interest but likely to explore
-router.get("/explore", auth, genfreq, async (req, res) => {
+router.get("/explore", auth, genfreq,data, async (req, res) => {
     try {
       var genre = req.bottomgenre;
-      var movieSet = [];
+      var country = req.country;
+      var adult = req.adult;
+      var movieArr = [];
       for (let i = 0; i < genre.length; i++) {
         await fetch(
-          `https://api.themoviedb.org/3/movie/popular?api_key=1e8236147d475e6013b593098ae706a3&language=en-US&page=1&with_genres=${genre[i]}`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
         )
           .then((response) => response.json())
-          .then((data) => movieSet.push(data.results));
+          .then((data) => movieArr.push(data.results));
       }
+      movieArr = [].concat.apply([], movieArr);
+      // var movieSet = new Set(movieArr);
+      // console.log(movieSet);
       res.status(200).json({
-        recommended: movieSet,
         msg: "success",
+        recommended: movieArr
       });
     } catch (err) {
       console.log(err);
@@ -124,4 +143,5 @@ router.get("/explore", auth, genfreq, async (req, res) => {
       });
     }
   });
+
 module.exports = router;

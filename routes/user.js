@@ -7,18 +7,18 @@ const jwt = require("jsonwebtoken");
 
 //REGISTER
 router.post("/register", async (req, res) => {
-    const {email, password} = req.body.auth;
-    const {genres} = req.body.preference;
+    const {username, password} = req.body.auth;
+    const {genres,country,birthyear} = req.body.preference;
     try{
-        let user_email_exist = await User.findOne({email:email});
-        if(user_email_exist){
-            res.status(409).json({
+        let user_exist = await User.findOne({username:username});
+        if(user_exist){
+            return res.status(409).json({
                 msg:'User already exist'
             });
         }
         
         let user = new User();
-        user.email = email;
+        user.username = username;
         const salt = await bcryptjs.genSalt(10);
         user.password = await bcryptjs.hash(password, salt);
 
@@ -26,6 +26,8 @@ router.post("/register", async (req, res) => {
         for(let i of genres){
             preference.genre[i].value= 1;
         }
+        preference.country = country;
+        preference.birthyear = birthyear;
         preference.user = user.id;
         user.preference = preference.id
         await preference.save();
@@ -55,11 +57,11 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-    const {email, password} = req.body;
+    const {username, password} = req.body;
 
     try{
         let user = await User.findOne({
-            email:email
+            username:username
         });
         if(!user){
             res.status(404).json({
@@ -72,6 +74,7 @@ router.post("/login", async (req, res) => {
                 msg:'Inavalid Credentials'  
             })
         }   
+
         const payload = {
             preference:{
                 id:user.preference
@@ -86,6 +89,7 @@ router.post("/login", async (req, res) => {
             });
         })
     }catch(err){
+        console.log(err);
         res.status(500).json({
             msg:`Server Error`
         })

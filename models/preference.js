@@ -195,9 +195,8 @@ const preferenceSchema = new mongoose.Schema({
         }
     }
     ,
-    country:{
-        type:String
-    },
+    country:String,
+    birthyear:Number,
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
