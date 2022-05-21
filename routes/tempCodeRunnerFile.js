@@ -1,0 +1,1 @@
+https://api.themoviedb.org/3/movie/${req.query.movieid}?api_key=${process.env.TMDBAPIKEY}
