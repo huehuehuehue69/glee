@@ -15,7 +15,7 @@ const  corsOptions = {
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 //Body-parsing
 app.use(express.json({}));
