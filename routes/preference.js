@@ -11,18 +11,17 @@ const router = express.Router();
 router.get("/onclick", auth, async (req, res) => {
   try {
     const preference = await Preference.findByIdAndUpdate(req.preference.id);
-    await fetch(
+    await axios.get(
       `https://api.themoviedb.org/3/movie/${req.query.movieid}?api_key=${process.env.TMDBAPIKEY}&language=US-en&append_to_response=videos`)
-      .then((response) => response.json())
-      .then((data) =>{ 
-        const genres = data.genres;
+      .then((response) => { 
+        const genres = response.data.genres;
         for (let i of genres) {
           preference.genre[i.id].value += 1;
         }
         preference.save();
         res.status(200).json({
         msg: "success",
-        detail:data
+        detail:response.data
       })});
   } catch (err) {
     console.log(err);
@@ -41,11 +40,11 @@ router.get("/intheater", auth, genfreq,data, async (req, res) => {
 
     var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
-      await fetch(
+      await axios.get(
         `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
-        .then((response) => response.json())
-        .then((data) => movieArr.push(data.results));
+        .then((response) => movieArr.push(response.data.results));
+        
     }
     movieArr = [].concat.apply([], movieArr);
 
@@ -72,8 +71,7 @@ router.get("/upcoming", auth, genfreq,data, async (req, res) => {
       await axios.get(
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
-        .then((response) => movieArr.push(response.data.results))
-        // .then((data) => movieArr.push(data.results));
+        .then((response) => movieArr.push(response.data.results));
         
     }
     movieArr = [].concat.apply([], movieArr);
@@ -98,11 +96,11 @@ router.get("/recommended", auth, genfreq,data, async (req, res) => {
     var adult = req.adult;
     var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
-      await fetch(
+      await axios.get(
         `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
-        .then((response) => response.json())
-        .then((data) => movieArr.push(data.results));
+        .then((response) => movieArr.push(response.data.results));
+        
     }
     movieArr = [].concat.apply([], movieArr);
     res.status(200).json({
@@ -125,11 +123,11 @@ router.get("/explore", auth, genfreq,data, async (req, res) => {
       var adult = req.adult;
       var movieArr = [];
       for (let i = 0; i < genre.length; i++) {
-        await fetch(
+        await axios.get(
           `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
         )
-          .then((response) => response.json())
-          .then((data) => movieArr.push(data.results));
+          .then((response) => movieArr.push(response.data.results));
+          
       }
       movieArr = [].concat.apply([], movieArr);
       // var movieSet = new Set(movieArr);
