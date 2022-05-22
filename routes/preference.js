@@ -72,7 +72,7 @@ router.get("/upcoming", auth, genfreq,data, async (req, res) => {
       await axios.get(
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
-        .then((response) => movieArr.push(response.results))
+        .then((response) => movieArr.push(response.data.results))
         // .then((data) => movieArr.push(data.results));
         
     }
