@@ -3,6 +3,7 @@ const Preference = require("../models/preference");
 const auth = require("../middleware/user_jwt");
 const genfreq = require("../middleware/genfreq");
 const data = require("../middleware/data");
+const { default: axios } = require("axios");
 const router = express.Router();
 
 
@@ -68,11 +69,12 @@ router.get("/upcoming", auth, genfreq,data, async (req, res) => {
     var adult = req.adult;
     var movieArr = [];
     for (let i = 0; i < genre.length; i++) {
-      await fetch(
+      await axios.get(
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDBAPIKEY}&language=en-US&page=1&region=${country}&include_adult=${adult}&with_genres=${genre[i]}`
       )
         .then((response) => response.json())
         .then((data) => movieArr.push(data.results));
+        
     }
     movieArr = [].concat.apply([], movieArr);
 
