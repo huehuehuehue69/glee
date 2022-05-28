@@ -42,9 +42,10 @@ router.post("/register", async (req, res) => {
             expiresIn:30000
         }, (err, token)=>{
             if (err) throw err;
+            res.cookie('token', token, { httpOnly: true })
             res.status(201).json({
                 msg:'Registered successfully',
-                token:token
+                // token:token
             });
         })
     }catch(err){
@@ -64,7 +65,7 @@ router.post("/login", async (req, res) => {
             username:username
         });
         if(!user){
-            res.status(404).json({
+            return res.status(404).json({
                 msg:'User does not exist, Resister to continue!'
             });
         }   
@@ -84,9 +85,10 @@ router.post("/login", async (req, res) => {
             expiresIn:300000
         },(err, token)=>{
             if (err) throw err;
-            res.status(200).json({
-                token:token
-            });
+            res.cookie('token', token, { httpOnly: true })
+            // res.status(200).json({
+            //     token:token
+            // });
         })
     }catch(err){
         console.log(err);
