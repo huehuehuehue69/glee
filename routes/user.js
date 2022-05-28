@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
             res.cookie('token', token, { httpOnly: true })
             res.status(201).json({
                 msg:'Registered successfully',
-                // token:token
+                token:token
             });
         })
     }catch(err){
@@ -86,9 +86,9 @@ router.post("/login", async (req, res) => {
         },(err, token)=>{
             if (err) throw err;
             res.cookie('token', token, { httpOnly: true })
-            // res.status(200).json({
-            //     token:token
-            // });
+            res.status(200).json({
+                token:token
+            });
         })
     }catch(err){
         console.log(err);
