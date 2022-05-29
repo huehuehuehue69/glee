@@ -1,0 +1,139 @@
+.signInScreen {
+  max-width: 470px;
+  height: 501px;
+  border-radius: 20px;
+  opacity: 80%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(0, 0, 0, 0.85);
+}
+.signInScreen > form {
+  display: grid;
+  flex-direction: column;
+}
+.signInScreen > form > input {
+  padding: 10px;
+  outline-width: 0;
+  height: 40px;
+  margin-bottom: 14px;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 15px;
+}
+.country{
+  display: flex;
+  flex-direction: row;
+  /* border: 2px solid orange; */
+  height: 40px;
+  border-radius: 5px;
+}
+.signInScreen > form>.country >input{
+  border-radius: 5px;
+  /* padding: 10px; */
+}
+#Country{
+  width: 60%;
+  padding-top: 2px;
+  height: 40px;
+  border-radius: 7px;
+}
+.year
+{
+  width: 40%;
+}
+.CheckBox{
+  color: #FF5F1F;
+}
+.signInScreen > form > h1 {
+  text-align: left;
+  margin-bottom: 25px;
+}
+.signInScreen > form > button {
+  padding: 16px 20px;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 5px;
+  background-color: #FF5F1F;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.signInScreen > form > h4 {
+  /* text-align: left; */
+  padding: 16px 20px;
+  margin-top: 2px;
+  margin-left: 0;
+}
+.signedInScreen_gray {
+  color: gray;
+}
+.terms_condition {
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.signInScreen_link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.signedInScreen input{
+  color: fff;
+}
+
+
+/* Genre */
+.genre h1{
+  padding-top: 1%;
+}
+.genre_input input{
+  /* color: #fff; */
+  /* padding: 0 10px; */
+  /* padding-right: 10px; */
+  margin-right: 10px;
+  margin-left: 100px;
+}
+.Gen1{
+  font-size: 1.25rem;
+  background-color: #FF5F1F;
+  background-image: linear-gradient(
+    to top,
+    rgb(0, 0, 0, 0.4) 0,
+    rgb(0, 0, 0, 0) 30%,
+    rgb(0, 0, 0, 0.6) 100%
+  );
+}
+.Gen2{
+  font-size: 1.25rem;
+  margin-top: 10px;
+  background-color: #FF5F1F;
+  background-image: linear-gradient(
+    to top,
+    rgb(0, 0, 0, 0.4) 0,
+    rgb(0, 0, 0, 0) 30%,
+    rgb(0, 0, 0, 0.6) 100%
+  );
+}
+.Buttsu:hover{
+  background-color: rgb(202, 70, 4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.Buttsi:hover{
+  background-color: rgb(202, 70, 4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.Buttsu:active{
+  background-color: rgb(94, 37, 6);
+  /* text-transform: uppercase; */
+  letter-spacing: 1px;
+}
+.Buttsi:active{
+  background-color: rgb(94, 37, 6);
+  /* text-transform: uppercase; */
+  letter-spacing: 1px;
+}

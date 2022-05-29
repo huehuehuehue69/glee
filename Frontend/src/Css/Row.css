@@ -1,0 +1,45 @@
+.row {
+  color: white;
+  margin-left: 20px;
+}
+
+.row_posters {
+  /* display: inline block;  --> Provides Equally space to the item in a block  */
+  display: flex;
+  /* flex-direction: column; */
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 30px;
+}
+.row_posters::-webkit-scrollbar {
+  display: none;
+}
+
+.row_poster {
+  object-fit: contain; /*keeps the aspect motion-rotation:*/
+  width: 100%;
+  max-height: 290px;
+  transition: transform 1s;  
+  margin-right: 15px;
+}
+
+.row_poster:hover {
+  transform: scale(1.08);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  /* border-radius: 10px; */
+  -webkit-box-shadow: 0px 0px 18px 0px rgb(255 , 255, 255);
+  -moz-box-shadow: 0px 0px 18px 0px rgba(255 , 255, 255);
+  box-shadow: 0px 0px 18px 0px rgba(255 , 255, 255);
+  
+}
+
+.row_posterLarge:hover {
+  transform: scale(1.09);
+}
+.video{
+  width: 40%;
+  border: none;
+}
+
+

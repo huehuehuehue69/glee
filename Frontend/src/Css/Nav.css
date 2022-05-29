@@ -1,0 +1,53 @@
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  height: 2px;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  
+  /* Animation */
+  transition-timing-function:ease-in ;
+  transition: all 0.5s;
+}
+.nav_black{
+    background-color: rgb(0, 0, 0);
+    height: 60px;
+}
+
+.nav_logo {
+  position: fixed;
+  top: 2px;
+  left: 20px;
+  width: 200px;
+  transition: width 0.5s;
+  object-fit: contain;
+  cursor: pointer;
+}
+.nav_logo_small{
+  width: 100px;
+  /* transform: scale(0.5); */
+  transition: width 0.5s;
+  cursor: pointer;
+}
+
+.nav_avatar {
+  position: fixed;
+  right: 20px;  
+  cursor: pointer;
+  width: 50px;
+  margin-bottom: 5px;
+  object-fit: contain;
+  margin-top: -14px;
+}
+.logo{
+  left: 20px;
+  padding: 5px;
+ padding-top: 20px;
+}
+.footer .TMBD{
+  right: 20px;
+}
