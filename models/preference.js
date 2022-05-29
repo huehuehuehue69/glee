@@ -200,7 +200,8 @@ const preferenceSchema = new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    mymovie:[]
 });
 
 module.exports = mongoose.model('Preference',preferenceSchema);
