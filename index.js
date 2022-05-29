@@ -16,7 +16,7 @@ const  corsOptions = {
 const app = express();
 
 app.use(cors());
-app.use(cors({ origin: 'https://glee-cinema.herokuapp.com', credentials: true }))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 
 //Body-parsing
 app.use(express.json({}));
