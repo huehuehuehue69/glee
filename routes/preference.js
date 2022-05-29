@@ -128,7 +128,7 @@ router.get("/intheater", auth, genfreq,data, async (req, res) => {
 
     movieArr.forEach(item => movieSet.add(item))
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -158,7 +158,7 @@ router.get("/upcoming", auth, genfreq,data, async (req, res) => {
 
     movieArr.forEach(item => movieSet.add(item))
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -188,7 +188,7 @@ router.get("/recommended", auth, genfreq,data, async (req, res) => {
 
     movieArr.forEach(item => movieSet.add(item))
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
@@ -219,7 +219,7 @@ router.get("/explore", auth, genfreq,data, async (req, res) => {
     movieArr.forEach(item => movieSet.add(item))
       res.status(200).json({
         msg: "success",
-        recommended: movieSet
+        recommended: movieArr
       });
     } catch (err) {
       console.log(err);
