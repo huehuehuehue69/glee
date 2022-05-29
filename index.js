@@ -16,7 +16,7 @@ const  corsOptions = {
 const app = express();
 
 app.use(cors());
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cors({ origin: 'https://glee-cinema.herokuapp.com', credentials: true }))
 
 //Body-parsing
 app.use(express.json({}));
@@ -32,6 +32,7 @@ connectDB();
 
 app.use("/user" , user);
 app.use("/home" , preference);
+
 
 
 const PORT = process.env.PORT || 5000;
