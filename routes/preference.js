@@ -97,7 +97,7 @@ router.post("/relatedmovies", auth, genfreq,data, async (req, res) => {
     console.log(movieSet,"SET")
 
     res.status(200).json({
-      recommended: movieSet,
+      recommended: movieArr,
       msg: "success",
     });
   } catch (err) {
