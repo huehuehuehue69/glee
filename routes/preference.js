@@ -76,7 +76,7 @@ router.get("/mymovies", auth, async (req, res) => {
 
 
 // fetching my movie list
-router.post("/relatedmovies", auth, genfreq,data, async (req, res) => {
+router.get("/relatedmovies", auth, genfreq,data, async (req, res) => {
   try {
     const preference = await Preference.findById(req.preference.id);
     const genres = req.body.movieid;
